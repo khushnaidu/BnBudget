@@ -1,0 +1,11 @@
+Expense ID,Property ID,Date,Category,Description,Amount,Receipt Available,Vendor
+7001,1001,2023-05-16,Cleaning,Post-stay cleaning,75,Yes,CleanPro
+7002,1001,2023-05-17,Maintenance,Plumbing repair,120,Yes,PlumbRight
+7003,1002,2023-06-05,Supplies,Toiletries restock,45,No,Amazon
+7004,1003,2023-06-25,Utilities,Monthly internet bill,65,Yes,Xfinity
+7005,1004,2023-05-21,Cleaning,Deep cleaning service,110,Yes,EliteClean
+7006,1001,2023-05-18,Supplies,Linens replacement,85,Yes,Bed Bath & Beyond
+7007,1002,2023-06-10,Maintenance,AC unit servicing,220,Yes,CoolAir
+7008,1005,2023-08-20,Upgrades,New patio furniture,650,Yes,Home Depot
+7009,1003,2023-07-01,Insurance,Monthly property insurance,125,Yes,State Farm
+7010,1004,2023-05-25,Marketing,Professional photos,300,Yes,PhotoStudio
