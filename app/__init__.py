@@ -1,10 +1,8 @@
 # backend/app/__init__.py
 
-# Import Flask, configuration, and database instance
 from flask import Flask
-# Configuration class with environment variables and database URI
 from .config import Config
-from .database import db    # SQLAlchemy database instance
+from .database import db
 
 
 def create_app():
@@ -12,27 +10,25 @@ def create_app():
     Factory function to create and configure the Flask application.
     This modular pattern allows for flexibility in testing, scaling, and maintaining separate environments.
     """
-    app = Flask(__name__)                  # Create Flask app instance
-    # Load configurations from config.py (e.g., database URI)
+    app = Flask(__name__)
     app.config.from_object(Config)
 
+    # Initialize the database
     db.init_app(app)
 
+    # Import all models to register them with SQLAlchemy
     from app.models.property import Property
     from app.models.booking import Booking
     from app.models.expense import Expense
     from app.models.seasonal_pricing import SeasonalPricing
     from app.models.monthly_summary import MonthlySummary
 
-    from .routes import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    # Import and register blueprints
+    from app.routes import main as main_blueprint
+    from app.routes.api import api as api_blueprint
 
-    return app
+    app.register_blueprint(main_blueprint)           # '/' root route
+    # '/api/upload/...' routes
+    app.register_blueprint(api_blueprint, url_prefix='/api')
 
-    # Import and register the route blueprint (can contain multiple route modules)
-    from .routes import main as main_blueprint
-    # Register the main blueprint with the app
-    app.register_blueprint(main_blueprint)
-
-    # Return the configured app instance for use by Flask CLI or Gunicorn
     return app
