@@ -1,0 +1,58 @@
+# docker-compose.yml
+
+
+
+services:
+  # ======================= Flask Backend Service =======================
+  backend:
+    build:
+      context: ./backend         # Path to the Dockerfile for building the Flask backend
+    container_name: bnbudget-backend
+    ports:
+      - "5000:5000"              # Host:Container port mapping for Flask app
+    volumes:
+      - ./backend:/app           # Mount local backend folder to container for live reloading
+    depends_on:
+      - db                       # Ensure PostgreSQL starts before backend
+
+  # ======================= PostgreSQL Database =======================
+  db:
+    image: postgres:14           # Official PostgreSQL 14 image
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: pooja       # DB username
+      POSTGRES_PASSWORD: secret123   # DB password
+      POSTGRES_DB: bnbudget      # Initial DB to create
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistent volume for DB data
+    ports:
+      - "5432:5432"              # Host:Container port mapping for PostgreSQL
+
+  # ======================= Metabase (BI Dashboard) =======================
+  metabase:
+    image: metabase/metabase:latest  # Latest Metabase image
+    container_name: metabase
+    ports:
+      - "3000:3000"              # Metabase runs on port 3000
+    depends_on:
+      - db                       # Wait for DB to initialize before Metabase starts
+
+  # ======================= Apache Airflow =======================
+  airflow:
+    image: apache/airflow:2.8.1-python3.10  # Airflow with Python 3.10
+    container_name: airflow
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor                 # Use SequentialExecutor for simple setup
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://pooja:secret123@db/bnbudget
+        # Airflow DB connection string to use Postgres container
+    ports:
+      - "8080:8080"              # Airflow web UI exposed on port 8080
+    depends_on:
+      - db                       # Ensure DB is up before starting Airflow
+    volumes:
+      - ./backend/dags:/opt/airflow/dags  # Mount local DAGs folder into container
+    command: webserver           # Start the Airflow webserver process
+
+# ======================= Named Volumes =======================
+volumes:
+  postgres_data:                # Named volume for PostgreSQL persistence
