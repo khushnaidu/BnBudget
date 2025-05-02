@@ -16,7 +16,8 @@ class Property(db.Model):
     cleaning_fee = db.Column(db.Float)
     service_fee_percent = db.Column(db.Float)
     tax_rate_percent = db.Column(db.Float)
-    owner = db.Column(db.String(255))
+    owner_id = db.Column(db.Integer, db.ForeignKey(
+        'owners.id'), nullable=False)
 
     bookings = db.relationship('Booking', backref='property', lazy=True)
     expenses = db.relationship('Expense', backref='property', lazy=True)

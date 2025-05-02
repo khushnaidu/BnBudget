@@ -22,10 +22,14 @@ def create_app():
     from app.models.expense import Expense
     from app.models.seasonal_pricing import SeasonalPricing
     from app.models.monthly_summary import MonthlySummary
+    from app.models.owner import Owner
 
     # Import and register blueprints
     from app.routes import main as main_blueprint
     from app.routes.api import api as api_blueprint
+
+    from app.routes.report_api import report_api as report_blueprint
+    app.register_blueprint(report_blueprint)
 
     app.register_blueprint(main_blueprint)           # '/' root route
     # '/api/upload/...' routes

@@ -3,6 +3,7 @@
 import pandas as pd
 from app.database import db
 from app.models.property import Property
+from app.models.owner import Owner
 from app.models.booking import Booking
 from app.models.expense import Expense
 from app.models.seasonal_pricing import SeasonalPricing
@@ -24,6 +25,22 @@ class UploadService:
         return df
 
     @staticmethod
+    def upload_owners(file):
+        df = pd.read_csv(file)
+        df = UploadService._normalize_headers(df)
+
+        for _, row in df.iterrows():
+            owner = Owner(
+                id=row['owner_id'],
+                name=row['name'],
+                email=row['email']
+            )
+            db.session.add(owner)
+
+        db.session.commit()
+        return {"message": "Owners uploaded successfully"}
+
+    @staticmethod
     def upload_properties(file):
         df = pd.read_csv(file)
         df = UploadService._normalize_headers(df)
@@ -42,7 +59,7 @@ class UploadService:
                 cleaning_fee=row['cleaning_fee'],
                 service_fee_percent=row['service_fee_percent'],
                 tax_rate_percent=row['tax_rate_percent'],
-                owner=row['owner']
+                owner_id=row['owner_id']
             )
             db.session.add(property_obj)
 

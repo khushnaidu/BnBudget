@@ -1,0 +1,201 @@
+Expense ID,Property ID,Date,Category,Description,Amount,Receipt Available,Vendor
+7001,1001,2024-09-29,Insurance,Insurance service,330.73,Yes,PhotoStudio
+7002,1001,2025-02-16,Insurance,Insurance service,357.5,Yes,PhotoStudio
+7003,1001,2024-12-09,Supplies,Supplies service,58.19,No,PhotoStudio
+7004,1001,2024-09-14,Cleaning,Cleaning service,208.18,No,PhotoStudio
+7005,1001,2025-03-11,Insurance,Insurance service,383.68,No,Xfinity
+7006,1001,2025-04-18,Upgrades,Upgrades service,410.59,No,Home Depot
+7007,1001,2024-10-27,Marketing,Marketing service,246.52,No,Amazon
+7008,1001,2025-03-20,Upgrades,Upgrades service,418.56,No,Amazon
+7009,1001,2025-02-25,Supplies,Supplies service,87.64,Yes,Amazon
+7010,1001,2024-10-25,Insurance,Insurance service,140.92,No,State Farm
+7011,1002,2025-02-17,Cleaning,Cleaning service,151.87,No,Xfinity
+7012,1002,2024-09-17,Maintenance,Maintenance service,419.29,Yes,Amazon
+7013,1002,2024-09-26,Cleaning,Cleaning service,326.95,No,Home Depot
+7014,1002,2025-02-12,Upgrades,Upgrades service,254.34,Yes,Home Depot
+7015,1002,2024-09-28,Upgrades,Upgrades service,313.07,Yes,State Farm
+7016,1002,2025-04-12,Upgrades,Upgrades service,166.95,No,PhotoStudio
+7017,1002,2024-11-21,Marketing,Marketing service,329.33,No,PlumbRight
+7018,1002,2025-02-04,Cleaning,Cleaning service,414.37,Yes,Xfinity
+7019,1002,2024-09-04,Cleaning,Cleaning service,197.75,Yes,Xfinity
+7020,1002,2025-03-27,Maintenance,Maintenance service,75.22,Yes,Xfinity
+7021,1003,2024-12-24,Marketing,Marketing service,403.93,Yes,State Farm
+7022,1003,2024-09-06,Marketing,Marketing service,297.39,Yes,State Farm
+7023,1003,2025-03-14,Utilities,Utilities service,430.61,No,Amazon
+7024,1003,2025-03-13,Insurance,Insurance service,227.8,No,Xfinity
+7025,1003,2024-10-14,Maintenance,Maintenance service,139.6,No,CleanPro
+7026,1003,2024-12-08,Utilities,Utilities service,77.04,No,Amazon
+7027,1003,2024-10-02,Marketing,Marketing service,78.89,Yes,State Farm
+7028,1003,2024-09-11,Supplies,Supplies service,124.63,No,Home Depot
+7029,1003,2024-11-21,Utilities,Utilities service,298.19,Yes,PhotoStudio
+7030,1003,2024-12-18,Maintenance,Maintenance service,360.35,Yes,Amazon
+7031,1004,2024-09-21,Supplies,Supplies service,186.13,No,Home Depot
+7032,1004,2024-09-02,Upgrades,Upgrades service,157.12,Yes,CleanPro
+7033,1004,2024-11-20,Marketing,Marketing service,448.95,No,Xfinity
+7034,1004,2025-04-23,Upgrades,Upgrades service,137.73,No,State Farm
+7035,1004,2025-04-22,Marketing,Marketing service,183.81,No,Home Depot
+7036,1004,2024-12-09,Marketing,Marketing service,224.11,No,Home Depot
+7037,1004,2025-02-05,Maintenance,Maintenance service,194.58,Yes,PhotoStudio
+7038,1004,2025-02-19,Maintenance,Maintenance service,63.56,No,Home Depot
+7039,1004,2024-09-10,Marketing,Marketing service,120.4,No,Home Depot
+7040,1004,2025-01-18,Marketing,Marketing service,186.96,Yes,State Farm
+7041,1005,2024-11-15,Maintenance,Maintenance service,283.19,Yes,Xfinity
+7042,1005,2024-10-10,Marketing,Marketing service,310.8,Yes,CleanPro
+7043,1005,2025-03-22,Insurance,Insurance service,272.54,No,State Farm
+7044,1005,2025-04-24,Supplies,Supplies service,272.93,No,Amazon
+7045,1005,2025-04-29,Supplies,Supplies service,272.11,No,CleanPro
+7046,1005,2025-01-31,Utilities,Utilities service,386.02,No,State Farm
+7047,1005,2024-10-07,Insurance,Insurance service,233.05,Yes,Home Depot
+7048,1005,2024-12-04,Utilities,Utilities service,314.16,No,Home Depot
+7049,1005,2025-01-15,Upgrades,Upgrades service,335.23,Yes,Home Depot
+7050,1005,2025-01-19,Marketing,Marketing service,235.12,Yes,Xfinity
+7051,1006,2024-09-10,Supplies,Supplies service,351.68,No,State Farm
+7052,1006,2024-10-11,Utilities,Utilities service,470.37,No,Amazon
+7053,1006,2025-02-25,Supplies,Supplies service,341.53,Yes,Home Depot
+7054,1006,2025-02-03,Insurance,Insurance service,145.37,Yes,State Farm
+7055,1006,2025-01-08,Utilities,Utilities service,146.34,Yes,Xfinity
+7056,1006,2024-10-22,Cleaning,Cleaning service,322.64,Yes,State Farm
+7057,1006,2024-12-17,Upgrades,Upgrades service,85.36,No,Xfinity
+7058,1006,2025-01-30,Maintenance,Maintenance service,430.91,No,PlumbRight
+7059,1006,2024-09-09,Upgrades,Upgrades service,172.21,Yes,Amazon
+7060,1006,2024-10-07,Cleaning,Cleaning service,449.81,No,CleanPro
+7061,1007,2024-09-11,Supplies,Supplies service,269.28,No,Xfinity
+7062,1007,2024-11-15,Upgrades,Upgrades service,401.87,No,PhotoStudio
+7063,1007,2024-09-04,Cleaning,Cleaning service,102.86,No,PlumbRight
+7064,1007,2025-04-12,Utilities,Utilities service,107.71,Yes,Xfinity
+7065,1007,2025-01-29,Upgrades,Upgrades service,239.22,No,PlumbRight
+7066,1007,2025-03-03,Marketing,Marketing service,452.82,Yes,CleanPro
+7067,1007,2024-10-28,Upgrades,Upgrades service,319.66,Yes,PhotoStudio
+7068,1007,2024-11-15,Cleaning,Cleaning service,157.79,No,Amazon
+7069,1007,2025-02-11,Utilities,Utilities service,381.42,No,Amazon
+7070,1007,2024-09-09,Upgrades,Upgrades service,348.49,No,Home Depot
+7071,1008,2024-12-02,Upgrades,Upgrades service,179.44,No,PlumbRight
+7072,1008,2025-02-02,Maintenance,Maintenance service,343.06,Yes,Amazon
+7073,1008,2025-03-08,Utilities,Utilities service,316.88,No,State Farm
+7074,1008,2024-12-16,Insurance,Insurance service,260.29,Yes,Amazon
+7075,1008,2025-03-20,Insurance,Insurance service,159.22,Yes,Amazon
+7076,1008,2025-03-05,Supplies,Supplies service,128.88,No,PlumbRight
+7077,1008,2025-02-23,Upgrades,Upgrades service,333.47,Yes,CleanPro
+7078,1008,2024-10-27,Supplies,Supplies service,412.58,Yes,PlumbRight
+7079,1008,2024-12-07,Maintenance,Maintenance service,472.93,Yes,Home Depot
+7080,1008,2025-04-09,Cleaning,Cleaning service,56.88,No,CleanPro
+7081,1009,2024-12-31,Marketing,Marketing service,193.95,Yes,Xfinity
+7082,1009,2025-02-13,Upgrades,Upgrades service,314.17,Yes,CleanPro
+7083,1009,2025-03-17,Insurance,Insurance service,238.08,Yes,State Farm
+7084,1009,2024-11-04,Utilities,Utilities service,396.22,Yes,Amazon
+7085,1009,2024-11-21,Cleaning,Cleaning service,275.82,No,CleanPro
+7086,1009,2025-02-11,Insurance,Insurance service,457.05,No,Home Depot
+7087,1009,2024-09-22,Supplies,Supplies service,216.81,Yes,State Farm
+7088,1009,2025-03-04,Insurance,Insurance service,418.7,Yes,Amazon
+7089,1009,2025-01-26,Cleaning,Cleaning service,427.01,No,PlumbRight
+7090,1009,2025-03-27,Insurance,Insurance service,273.9,No,State Farm
+7091,1010,2024-10-31,Utilities,Utilities service,399.64,Yes,PlumbRight
+7092,1010,2025-02-10,Marketing,Marketing service,371.56,No,Amazon
+7093,1010,2024-11-09,Marketing,Marketing service,289.13,No,Home Depot
+7094,1010,2025-03-02,Supplies,Supplies service,102.18,Yes,PlumbRight
+7095,1010,2024-10-19,Maintenance,Maintenance service,220.28,Yes,Amazon
+7096,1010,2024-11-26,Marketing,Marketing service,239.93,No,Home Depot
+7097,1010,2025-04-20,Marketing,Marketing service,72.19,Yes,Amazon
+7098,1010,2024-12-25,Marketing,Marketing service,433.2,Yes,Xfinity
+7099,1010,2024-09-08,Supplies,Supplies service,95.6,Yes,PhotoStudio
+7100,1010,2025-04-22,Insurance,Insurance service,117.35,Yes,Amazon
+7101,1011,2025-04-13,Maintenance,Maintenance service,144.58,Yes,Xfinity
+7102,1011,2024-10-29,Insurance,Insurance service,261.6,No,State Farm
+7103,1011,2025-02-26,Maintenance,Maintenance service,337.26,No,CleanPro
+7104,1011,2025-02-12,Insurance,Insurance service,391.82,No,Home Depot
+7105,1011,2024-08-31,Insurance,Insurance service,498.55,Yes,Home Depot
+7106,1011,2024-12-08,Insurance,Insurance service,468.45,Yes,PhotoStudio
+7107,1011,2025-01-26,Cleaning,Cleaning service,149.36,No,Home Depot
+7108,1011,2024-11-09,Marketing,Marketing service,439.73,Yes,Home Depot
+7109,1011,2024-10-30,Supplies,Supplies service,344.36,No,Xfinity
+7110,1011,2024-12-05,Upgrades,Upgrades service,132.52,No,Home Depot
+7111,1012,2025-02-01,Marketing,Marketing service,366.74,Yes,CleanPro
+7112,1012,2024-10-07,Upgrades,Upgrades service,300.84,No,Home Depot
+7113,1012,2025-02-01,Insurance,Insurance service,179.97,Yes,PhotoStudio
+7114,1012,2024-09-23,Insurance,Insurance service,401.83,No,CleanPro
+7115,1012,2025-02-07,Upgrades,Upgrades service,151.82,Yes,PlumbRight
+7116,1012,2024-09-18,Maintenance,Maintenance service,174.5,No,CleanPro
+7117,1012,2025-04-23,Utilities,Utilities service,137.82,No,Xfinity
+7118,1012,2024-10-30,Supplies,Supplies service,84.0,No,PhotoStudio
+7119,1012,2024-12-18,Insurance,Insurance service,334.84,Yes,PlumbRight
+7120,1012,2024-10-10,Utilities,Utilities service,71.72,Yes,Amazon
+7121,1013,2025-04-26,Insurance,Insurance service,226.21,Yes,Xfinity
+7122,1013,2025-04-07,Maintenance,Maintenance service,376.82,Yes,Home Depot
+7123,1013,2025-03-04,Cleaning,Cleaning service,342.85,Yes,CleanPro
+7124,1013,2024-11-25,Utilities,Utilities service,176.97,Yes,Home Depot
+7125,1013,2024-10-22,Insurance,Insurance service,361.92,Yes,State Farm
+7126,1013,2024-11-28,Maintenance,Maintenance service,270.34,Yes,CleanPro
+7127,1013,2025-04-19,Marketing,Marketing service,376.72,Yes,State Farm
+7128,1013,2025-01-29,Utilities,Utilities service,460.85,Yes,PlumbRight
+7129,1013,2025-04-20,Upgrades,Upgrades service,124.17,Yes,PhotoStudio
+7130,1013,2025-04-06,Supplies,Supplies service,434.18,Yes,CleanPro
+7131,1014,2025-02-05,Upgrades,Upgrades service,404.79,Yes,PlumbRight
+7132,1014,2024-11-14,Marketing,Marketing service,246.13,Yes,CleanPro
+7133,1014,2024-11-05,Marketing,Marketing service,477.03,Yes,State Farm
+7134,1014,2024-11-03,Upgrades,Upgrades service,273.82,Yes,CleanPro
+7135,1014,2024-11-12,Upgrades,Upgrades service,268.72,No,Amazon
+7136,1014,2025-03-24,Supplies,Supplies service,358.11,Yes,PhotoStudio
+7137,1014,2024-10-21,Insurance,Insurance service,420.01,No,PhotoStudio
+7138,1014,2025-02-26,Cleaning,Cleaning service,370.95,Yes,Amazon
+7139,1014,2024-09-14,Insurance,Insurance service,97.53,Yes,PhotoStudio
+7140,1014,2025-01-16,Maintenance,Maintenance service,143.92,Yes,CleanPro
+7141,1015,2025-02-13,Utilities,Utilities service,257.86,No,PhotoStudio
+7142,1015,2024-09-03,Supplies,Supplies service,411.36,Yes,CleanPro
+7143,1015,2024-09-04,Upgrades,Upgrades service,229.31,Yes,Home Depot
+7144,1015,2024-10-07,Utilities,Utilities service,56.39,Yes,State Farm
+7145,1015,2025-04-26,Supplies,Supplies service,109.0,Yes,Home Depot
+7146,1015,2025-01-10,Insurance,Insurance service,199.84,No,Home Depot
+7147,1015,2025-01-24,Upgrades,Upgrades service,261.41,No,Home Depot
+7148,1015,2024-11-02,Utilities,Utilities service,382.12,Yes,State Farm
+7149,1015,2024-12-30,Supplies,Supplies service,167.17,Yes,Home Depot
+7150,1015,2025-04-20,Cleaning,Cleaning service,235.71,Yes,Amazon
+7151,1016,2025-02-03,Supplies,Supplies service,417.93,No,Xfinity
+7152,1016,2024-10-06,Insurance,Insurance service,464.2,No,CleanPro
+7153,1016,2025-04-26,Upgrades,Upgrades service,214.72,No,State Farm
+7154,1016,2025-01-28,Marketing,Marketing service,380.14,No,CleanPro
+7155,1016,2025-01-09,Cleaning,Cleaning service,478.23,No,Amazon
+7156,1016,2025-02-17,Supplies,Supplies service,242.12,No,CleanPro
+7157,1016,2024-10-26,Supplies,Supplies service,303.07,Yes,CleanPro
+7158,1016,2024-09-24,Insurance,Insurance service,106.74,Yes,CleanPro
+7159,1016,2024-10-08,Maintenance,Maintenance service,249.63,No,PlumbRight
+7160,1016,2025-04-15,Upgrades,Upgrades service,213.31,Yes,Home Depot
+7161,1017,2024-10-02,Insurance,Insurance service,416.07,No,CleanPro
+7162,1017,2024-11-21,Upgrades,Upgrades service,426.86,No,Home Depot
+7163,1017,2025-03-05,Cleaning,Cleaning service,218.68,No,CleanPro
+7164,1017,2025-01-06,Supplies,Supplies service,309.17,Yes,Amazon
+7165,1017,2024-10-27,Utilities,Utilities service,126.97,No,Amazon
+7166,1017,2025-04-21,Insurance,Insurance service,215.59,No,CleanPro
+7167,1017,2024-12-14,Utilities,Utilities service,446.74,Yes,Amazon
+7168,1017,2025-01-19,Insurance,Insurance service,400.76,Yes,State Farm
+7169,1017,2025-01-26,Cleaning,Cleaning service,58.03,Yes,State Farm
+7170,1017,2025-01-17,Utilities,Utilities service,75.19,No,PhotoStudio
+7171,1018,2024-12-07,Marketing,Marketing service,391.51,No,Home Depot
+7172,1018,2025-01-15,Cleaning,Cleaning service,436.94,No,PhotoStudio
+7173,1018,2025-02-03,Marketing,Marketing service,258.13,Yes,Xfinity
+7174,1018,2025-03-31,Maintenance,Maintenance service,127.09,Yes,Home Depot
+7175,1018,2024-10-17,Maintenance,Maintenance service,371.96,Yes,Xfinity
+7176,1018,2025-01-09,Marketing,Marketing service,219.46,No,PhotoStudio
+7177,1018,2024-11-21,Supplies,Supplies service,235.09,No,Home Depot
+7178,1018,2025-04-13,Insurance,Insurance service,407.01,Yes,PhotoStudio
+7179,1018,2024-11-13,Cleaning,Cleaning service,76.38,No,CleanPro
+7180,1018,2024-08-31,Utilities,Utilities service,142.44,No,PhotoStudio
+7181,1019,2025-04-22,Upgrades,Upgrades service,82.1,Yes,CleanPro
+7182,1019,2025-04-30,Supplies,Supplies service,164.67,Yes,PlumbRight
+7183,1019,2024-09-25,Insurance,Insurance service,187.64,No,Xfinity
+7184,1019,2024-09-18,Maintenance,Maintenance service,107.07,No,PlumbRight
+7185,1019,2025-03-26,Supplies,Supplies service,226.94,Yes,Amazon
+7186,1019,2024-10-26,Upgrades,Upgrades service,103.69,Yes,Home Depot
+7187,1019,2025-04-25,Cleaning,Cleaning service,196.61,Yes,PhotoStudio
+7188,1019,2024-12-25,Supplies,Supplies service,186.39,Yes,Xfinity
+7189,1019,2025-01-31,Upgrades,Upgrades service,226.87,No,Xfinity
+7190,1019,2025-03-22,Cleaning,Cleaning service,78.55,No,State Farm
+7191,1020,2025-04-12,Utilities,Utilities service,87.62,Yes,State Farm
+7192,1020,2024-11-22,Utilities,Utilities service,429.08,No,CleanPro
+7193,1020,2025-04-09,Utilities,Utilities service,270.63,Yes,Xfinity
+7194,1020,2024-10-10,Insurance,Insurance service,472.1,Yes,PhotoStudio
+7195,1020,2025-01-22,Marketing,Marketing service,92.28,No,CleanPro
+7196,1020,2025-04-10,Upgrades,Upgrades service,391.04,Yes,Xfinity
+7197,1020,2024-09-11,Maintenance,Maintenance service,113.87,Yes,Amazon
+7198,1020,2024-10-16,Supplies,Supplies service,319.49,No,Home Depot
+7199,1020,2025-03-18,Insurance,Insurance service,220.2,Yes,PlumbRight
+7200,1020,2024-09-19,Maintenance,Maintenance service,159.55,Yes,Xfinity

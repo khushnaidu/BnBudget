@@ -49,3 +49,12 @@ def upload_monthly_summary():
         return jsonify({"error": "CSV file is required"}), 400
     result = UploadService.upload_monthly_summary(file)
     return jsonify(result), 200
+
+
+@api.route('/upload/owners', methods=['POST'])
+def upload_owners():
+    file = request.files.get('file')
+    if not file:
+        return jsonify({"error": "CSV file is required"}), 400
+    result = UploadService.upload_owners(file)
+    return jsonify(result), 200
