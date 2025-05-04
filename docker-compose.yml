@@ -1,58 +1,111 @@
-# docker-compose.yml
+# ==================== Docker Compose for BnBudget ====================
+# Includes: Flask Backend, Airflow, Kafka, Zookeeper, Metabase, AWS RDS PostgreSQL, Kafka UI
+# Author: Pooja Singh | Branch: metabase-integration
 
-
+version: '3.8'
 
 services:
-  # ======================= Flask Backend Service =======================
+  # ================== Flask Backend API ==================
   backend:
     build:
-      context: ./backend         # Path to the Dockerfile for building the Flask backend
+      context: ./backend
     container_name: bnbudget-backend
     ports:
-      - "5000:5000"              # Host:Container port mapping for Flask app
+      - "5050:5000"  # Flask app accessible at http://localhost:5050
     volumes:
-      - ./backend:/app           # Mount local backend folder to container for live reloading
+      - ./backend:/app
     depends_on:
-      - db                       # Ensure PostgreSQL starts before backend
+      - postgres-db
 
-  # ======================= PostgreSQL Database =======================
-  db:
-    image: postgres:14           # Official PostgreSQL 14 image
+  # ================== PostgreSQL (local for dev; connects to AWS RDS in prod) ==================
+  postgres-db:
+    image: postgres:14
     container_name: postgres-db
     environment:
-      POSTGRES_USER: pooja       # DB username
-      POSTGRES_PASSWORD: secret123   # DB password
-      POSTGRES_DB: bnbudget      # Initial DB to create
+      POSTGRES_USER: bnbudget_user
+      POSTGRES_PASSWORD: AirBNB1234
+      POSTGRES_DB: bnbudget
+    ports:
+      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # Persistent volume for DB data
-    ports:
-      - "5432:5432"              # Host:Container port mapping for PostgreSQL
+      - postgres_data:/var/lib/postgresql/data
 
-  # ======================= Metabase (BI Dashboard) =======================
-  metabase:
-    image: metabase/metabase:latest  # Latest Metabase image
-    container_name: metabase
+  # ================== Metabase Dashboard ==================
+  metabase-dataops:
+    image: metabase/metabase:latest
+    container_name: metabase-dataops
     ports:
-      - "3000:3000"              # Metabase runs on port 3000
+      - "3000:3000"  # Access Metabase at http://localhost:3000
     depends_on:
-      - db                       # Wait for DB to initialize before Metabase starts
+      - postgres-db
 
-  # ======================= Apache Airflow =======================
-  airflow:
-    image: apache/airflow:2.8.1-python3.10  # Airflow with Python 3.10
-    container_name: airflow
+  # ================== Airflow Webserver ==================
+  airflow-webserver:
+    image: apache/airflow:2.8.1-python3.10
+    container_name: airflow-webserver
+    ports:
+      - "8080:8080"  # Airflow UI at http://localhost:8080
     environment:
-      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor                 # Use SequentialExecutor for simple setup
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://pooja:secret123@db/bnbudget
-        # Airflow DB connection string to use Postgres container
-    ports:
-      - "8080:8080"              # Airflow web UI exposed on port 8080
-    depends_on:
-      - db                       # Ensure DB is up before starting Airflow
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://bnbudget_user:AirBNB1234@bnbudget-db.cd8m0gcimolr.us-west-1.rds.amazonaws.com:5432/bnbudget
+      - _AIRFLOW_WWW_USER_USERNAME=admin
+      - _AIRFLOW_WWW_USER_PASSWORD=admin
     volumes:
-      - ./backend/dags:/opt/airflow/dags  # Mount local DAGs folder into container
-    command: webserver           # Start the Airflow webserver process
+      - ./backend/dags:/opt/airflow/dags
+    command: bash -c "airflow db init && airflow webserver"
+    depends_on:
+      - postgres-db
 
-# ======================= Named Volumes =======================
+  # ================== Airflow Scheduler ==================
+  airflow-scheduler:
+    image: apache/airflow:2.8.1-python3.10
+    container_name: airflow-scheduler
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://bnbudget_user:AirBNB1234@bnbudget-db.cd8m0gcimolr.us-west-1.rds.amazonaws.com:5432/bnbudget
+    volumes:
+      - ./backend/dags:/opt/airflow/dags
+    command: bash -c "airflow db upgrade && airflow scheduler"
+    depends_on:
+      - airflow-webserver
+
+  # ================== Apache Zookeeper ==================
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"  # Zookeeper admin port
+
+  # ================== Apache Kafka ==================
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    ports:
+      - "9092:9092"  # Kafka broker port
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+
+  # ================== Kafka UI (Provectus) ==================
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8081:8080"  # Kafka UI at http://localhost:8081
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+    depends_on:
+      - kafka
+
+# ================== Volumes ==================
 volumes:
-  postgres_data:                # Named volume for PostgreSQL persistence
+  postgres_data:
