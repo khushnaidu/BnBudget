@@ -8,6 +8,8 @@ class Expense(db.Model):
     property_id = db.Column(db.Integer, db.ForeignKey(
         'properties.id'), nullable=False)
     expense_date = db.Column(db.Date, nullable=False)
-    expense_type = db.Column(db.String(255), nullable=False)
+    category = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text)
     amount = db.Column(db.Float, nullable=False)
-    notes = db.Column(db.Text)
+    receipt_available = db.Column(db.String(10))  # Yes/No string
+    vendor = db.Column(db.String(255))
