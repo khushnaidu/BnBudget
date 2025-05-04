@@ -3,6 +3,7 @@
 from flask import Flask
 from .config import Config
 from .database import db
+from flask_cors import CORS
 
 
 def create_app():
@@ -15,6 +16,9 @@ def create_app():
 
     # Initialize the database
     db.init_app(app)
+
+    CORS(app, resources={r"/api/*": {"origins": "*"}},
+         supports_credentials=True)
 
     # Import all models to register them with SQLAlchemy
     from app.models.property import Property
@@ -34,5 +38,8 @@ def create_app():
     app.register_blueprint(main_blueprint)           # '/' root route
     # '/api/upload/...' routes
     app.register_blueprint(api_blueprint, url_prefix='/api')
+
+    from app.routes.property_api import property_api
+    app.register_blueprint(property_api, url_prefix="/api")
 
     return app

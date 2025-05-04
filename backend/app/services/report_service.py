@@ -1,5 +1,3 @@
-# backend/app/services/report_service.py
-
 from app.database import db
 from app.models.owner import Owner
 from app.models.property import Property
@@ -8,6 +6,32 @@ from app.models.expense import Expense
 from app.models.seasonal_pricing import SeasonalPricing
 from app.models.monthly_summary import MonthlySummary
 from collections import defaultdict
+
+
+def serialize_seasonal(s):
+    return {
+        "season": s.season,
+        "start_date": s.start_date.isoformat(),
+        "end_date": s.end_date.isoformat(),
+        "rate_multiplier": s.rate_multiplier
+    }
+
+
+def serialize_summary(summary):
+    return {
+        "month": summary.month,
+        "year": summary.year,
+        "bookings": summary.bookings,
+        "nights_booked": summary.nights_booked,
+        "occupancy_percent": summary.occupancy_percent,
+        "rental_income": summary.rental_income,
+        "cleaning_fees": summary.cleaning_fees,
+        "service_fees": summary.service_fees,
+        "tax_collected": summary.tax_collected,
+        "total_revenue": summary.total_revenue,
+        "expenses": summary.expenses,
+        "net_income": summary.net_income
+    }
 
 
 class ReportService:
@@ -127,3 +151,47 @@ class ReportService:
             pid: round(sum(values) / len(values), 2) if values else 0.0
             for pid, values in grouped.items()
         }
+
+    @staticmethod
+    def get_property_details(property_id):
+        property = Property.query.get_or_404(property_id)
+
+        seasonal = SeasonalPricing.query.filter_by(
+            property_id=property_id).all()
+        bookings = Booking.query.filter_by(
+            property_id=property_id).order_by(Booking.check_out.desc()).all()
+        summary = MonthlySummary.query.filter_by(property_id=property_id).order_by(
+            MonthlySummary.year.desc(), MonthlySummary.month.desc()).first()
+
+        recent_status = bookings[0].status if bookings else "No recent bookings"
+
+        return {
+            "property": property.serialize(),
+            "seasonal_pricing": [serialize_seasonal(s) for s in seasonal],
+            "recent_status": recent_status,
+            "latest_summary": serialize_summary(summary) if summary else None
+        }
+
+    @staticmethod
+    def get_monthly_summary_by_property(property_id):
+        summaries = MonthlySummary.query.filter_by(property_id=property_id).order_by(
+            MonthlySummary.year.desc(), MonthlySummary.month.desc()
+        ).all()
+
+        return [
+            {
+                "month": s.month,
+                "year": s.year,
+                "bookings": s.bookings,
+                "nights_booked": s.nights_booked,
+                "occupancy_percent": s.occupancy_percent,
+                "rental_income": s.rental_income,
+                "cleaning_fees": s.cleaning_fees,
+                "service_fees": s.service_fees,
+                "tax_collected": s.tax_collected,
+                "total_revenue": s.total_revenue,
+                "expenses": s.expenses,
+                "net_income": s.net_income
+            }
+            for s in summaries
+        ]

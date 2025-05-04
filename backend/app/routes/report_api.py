@@ -40,3 +40,13 @@ def get_profit_loss():
 def get_occupancy_rate():
     owner_id = request.args.get('owner_id', type=int)
     return jsonify(ReportService.get_occupancy_rate(owner_id))
+
+
+@report_api.route('/api/property/<int:property_id>/details', methods=['GET'])
+def get_property_details(property_id):
+    return jsonify(ReportService.get_property_details(property_id))
+
+
+@report_api.route('/api/property/<int:property_id>/monthly_summary', methods=['GET'])
+def get_monthly_summary_by_property(property_id):
+    return jsonify(ReportService.get_monthly_summary_by_property(property_id))
