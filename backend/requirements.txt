@@ -4,3 +4,5 @@ psycopg2-binary==2.9.6
 pandas==2.2.1
 apache-airflow==2.8.1
 python-dotenv==1.0.1
+flask-cors==3.0.10
+

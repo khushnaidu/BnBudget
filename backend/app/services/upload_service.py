@@ -27,18 +27,19 @@ class UploadService:
     @staticmethod
     def upload_owners(file):
         df = pd.read_csv(file)
-        df = UploadService._normalize_headers(df)
-
         for _, row in df.iterrows():
-            owner = Owner(
-                id=row['owner_id'],
-                name=row['name'],
-                email=row['email']
-            )
-            db.session.add(owner)
+            email = row["Email"]
+            name = row["Name"]
+            owner_id = row["Owner ID"]
 
+            if not Owner.query.filter_by(email=email).first():
+                new_owner = Owner(id=owner_id, email=email,
+                                  name=name)
+                # set default password for test
+                new_owner.set_password("bnbudget123")
+                db.session.add(new_owner)
         db.session.commit()
-        return {"message": "Owners uploaded successfully"}
+        return {"message": "Owners uploaded with names and default passwords"}
 
     @staticmethod
     def upload_properties(file):

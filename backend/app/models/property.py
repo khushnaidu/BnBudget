@@ -25,3 +25,21 @@ class Property(db.Model):
         'SeasonalPricing', backref='property', lazy=True)
     monthly_summaries = db.relationship(
         'MonthlySummary', backref='property', lazy=True)
+
+    def serialize(self):
+        return {
+            "property_id": self.id,
+            "name": self.name,
+            "location": self.location,
+            "bedrooms": self.bedrooms,
+            "bathrooms": self.bathrooms,
+            "max_guests": self.max_guests,
+            "base_nightly_rate": self.base_nightly_rate,
+            "peak_season_rate": self.peak_season_rate,
+            "off_season_rate": self.off_season_rate,
+            "cleaning_fee": self.cleaning_fee,
+            "service_fee_percent": self.service_fee_percent,
+            "tax_rate_percent": self.tax_rate_percent,
+            "owner_id": self.owner_id,
+            "status": "approved"
+        }
