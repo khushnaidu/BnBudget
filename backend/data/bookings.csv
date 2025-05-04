@@ -1,7 +1,0 @@
-Booking ID,Property ID,Guest Name,Check-In,Check-Out,Nights,Guests,Season,Subtotal,Cleaning Fee,Service Fee,Tax,Total,Booking Date,Status,Cancellation Date,Refund Amount
-5001,1001,Alex Johnson,2023-05-15,2023-05-18,3,2,Peak,540,75,86.1,54.59,755.69,2023-04-10,Completed,,
-5002,1002,Emily Chen,2023-06-01,2023-06-08,7,4,Peak,2450,120,359.8,175.8,3105.6,2023-05-15,Completed,,
-5003,1003,Michael Brown,2023-07-10,2023-07-17,7,6,Peak,3850,150,560.0,111.65,4671.65,2023-06-20,Upcoming,,
-5004,1004,Lisa Wong,2023-05-20,2023-05-22,2,3,Peak,440,90,74.2,54.35,658.55,2023-05-01,Completed,,
-5005,1005,James Wilson,2023-09-10,2023-09-15,5,2,Off,800,80,123.2,49.6,1052.8,2023-08-01,Cancelled,2023-08-15,840
-5006,1001,Sophia Lee,2023-11-05,2023-11-08,3,2,Off,360,75,60.9,38.59,534.49,2023-10-10,Confirmed,,
