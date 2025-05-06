@@ -21,7 +21,9 @@ const PropertyExpenseStack: React.FC<Props> = ({
   onView,
 }) => {
   const [index, setIndex] = useState(0);
-  const expense = expenses[index];
+  if (expenses.length === 0) return null;
+  const expense = expenses[index] ?? expenses[expenses.length - 1];
+
 
   const atStart = index === 0;
   const atEnd = index === expenses.length - 1;
