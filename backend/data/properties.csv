@@ -1,0 +1,6 @@
+Property ID,Property Name,Location,Bedrooms,Bathrooms,Max Guests,Base Nightly Rate,Peak Season Rate,Off Season Rate,Cleaning Fee,Service Fee %,Tax Rate %,Owner
+1001,Downtown Loft,"New York,NY",1,1,2,150,180,120,75,14,8.875,John S
+1002,Beachfront Villa,"Miami,FL",3,2,6,300,350,250,120,14,6.0,María L
+1003,Mountain Retreat,"Aspen,CO",4,3,8,450,550,350,150,14,2.9,David K
+1004,City View Apartment,"Chicago,IL",2,1,4,180,220,150,90,14,10.25,Sarah M
+1005,Lakeside Cottage,"Lake Geneva,WI",2,1,4,200,250,160,80,14,5.0,Robert T

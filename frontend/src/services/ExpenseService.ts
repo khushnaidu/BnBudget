@@ -1,1 +1,0 @@
-export {}; // This tells TypeScript it's a module

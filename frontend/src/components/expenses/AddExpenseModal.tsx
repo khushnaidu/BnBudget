@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -6,170 +6,144 @@ import {
   DialogActions,
   TextField,
   Button,
-  MenuItem,
   Stack,
-} from "@mui/material";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { isNameTypingAllowed, isNumberTypingAllowed } from "../../utils/validators";
-import ErrorAlert from "../shared/ErrorAlert";
-import { ExpenseFormData, ExpenseFormOutput } from "../../hooks/useExpenseForm";
+  MenuItem,
+} from '@mui/material';
+import { Expense } from '../../types/expenseTypes';
 
 interface AddExpenseModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: ExpenseFormOutput) => void;
-  propertyId: number;
-  initialData?: ExpenseFormData;
-  actionError?: string | null;
-  setActionError?: (msg: string | null) => void;
+  onSubmit: (data: Expense) => void;
+  initialData?: Expense;
 }
 
-const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
-  open,
-  onClose,
-  onSubmit,
-  propertyId,
-  initialData,
-  actionError,
-  setActionError,
-}) => {
-  const [form, setForm] = useState<ExpenseFormData>({
-    date: "",
-    category: "",
-    description: "",
-    amount: "",
-    receipt_available: false,
-    vendor: "",
-    receipt_file: null,
+const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubmit, initialData }) => {
+  const isEdit = !!initialData;
+  const [formData, setFormData] = useState({
+    propertyId: '',
+    expenseDate: '',
+    category: '',
+    description: '',
+    amount: '',
+    receiptAvailable: 'No',
+    vendor: '',
   });
 
   useEffect(() => {
     if (initialData) {
-      setForm({ ...initialData });
+      setFormData({
+        propertyId: String(initialData.propertyId),
+        expenseDate: initialData.expenseDate,
+        category: initialData.category,
+        description: initialData.description || '',
+        amount: String(initialData.amount),
+        receiptAvailable: initialData.receiptAvailable,
+        vendor: initialData.vendor || '',
+      });
     } else {
-      setForm({
-        date: "",
-        category: "",
-        description: "",
-        amount: "",
-        receipt_available: false,
-        vendor: "",
-        receipt_file: null,
+      setFormData({
+        propertyId: '',
+        expenseDate: '',
+        category: '',
+        description: '',
+        amount: '',
+        receiptAvailable: 'No',
+        vendor: '',
       });
     }
-    setActionError?.(null); // ✅ Clear error on open
-  }, [initialData, open]);
+  }, [initialData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setActionError?.(null); // ✅ Clear on typing
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleNameFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isNameTypingAllowed(e.target.value)) handleChange(e);
-  };
-
-  const handleNumberFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isNumberTypingAllowed(e.target.value)) handleChange(e);
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
-    const numericAmount = parseFloat(form.amount || "0");
-    onSubmit({ ...form, amount: numericAmount });
+    const finalData: Expense = {
+      ...(initialData || { id: Date.now() }),
+      propertyId: Number(formData.propertyId),
+      expenseDate: formData.expenseDate,
+      category: formData.category,
+      description: formData.description,
+      amount: Number(formData.amount),
+      receiptAvailable: formData.receiptAvailable as 'Yes' | 'No',
+      vendor: formData.vendor,
+    };
+    onSubmit(finalData);
   };
-
-  // ✅ Debug log to confirm error received
-  console.log("🔍 actionError in AddExpenseModal:", actionError);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>
-        {initialData ? "Edit Expense" : `Add Expense for Property #${propertyId}`}
-      </DialogTitle>
+      <DialogTitle>{isEdit ? 'Edit Expense' : 'Add Expense'}</DialogTitle>
       <DialogContent>
-        <Stack spacing={2} mt={1}>
-          {actionError && (
-            <ErrorAlert
-              message={actionError}
-              title="Add/Edit Failed"
-              onRetry={handleSubmit}
-            />
-          )}
+        <Stack spacing={3} mt={2}>
           <TextField
+            required
+            label="Property ID"
+            name="propertyId"
+            value={formData.propertyId}
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            required
             label="Date"
+            name="expenseDate"
             type="date"
-            name="date"
-            value={form.date}
+            value={formData.expenseDate}
             onChange={handleChange}
             InputLabelProps={{ shrink: true }}
             fullWidth
           />
           <TextField
+            required
             label="Category"
             name="category"
-            select
-            value={form.category}
+            value={formData.category}
             onChange={handleChange}
             fullWidth
-          >
-            {["Cleaning", "Maintenance", "Supplies", "Utilities", "Upgrades", "Insurance", "Marketing", "Other"].map((cat) => (
-              <MenuItem key={cat} value={cat}>{cat}</MenuItem>
-            ))}
-          </TextField>
+          />
           <TextField
             label="Description"
             name="description"
-            value={form.description}
+            value={formData.description}
             onChange={handleChange}
             fullWidth
           />
           <TextField
+            required
             label="Amount"
             name="amount"
-            type="text"
-            value={form.amount}
-            onChange={handleNumberFieldChange}
+            type="number"
+            value={formData.amount}
+            onChange={handleChange}
             fullWidth
           />
           <TextField
+            select
+            label="Receipt Available"
+            name="receiptAvailable"
+            value={formData.receiptAvailable}
+            onChange={handleChange}
+            fullWidth
+          >
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </TextField>
+          <TextField
             label="Vendor"
             name="vendor"
-            value={form.vendor}
-            onChange={handleNameFieldChange}
+            value={formData.vendor}
+            onChange={handleChange}
             fullWidth
           />
-          <Button
-            variant="outlined"
-            component="label"
-            startIcon={<UploadFileIcon />}
-          >
-            {initialData ? "Replace Receipt" : "Upload Receipt"}
-            <input
-              type="file"
-              hidden
-              accept=".pdf,.jpg,.jpeg,.png"
-              onChange={(e) => {
-                const file = e.target.files?.[0] || null;
-                setForm((prev) => ({
-                  ...prev,
-                  receipt_file: file,
-                  receipt_available: !!file,
-                }));
-              }}
-            />
-          </Button>
-          {form.receipt_file && (
-            <span style={{ fontSize: "0.8rem", color: "#555" }}>
-              Uploaded: {form.receipt_file.name}
-            </span>
-          )}
         </Stack>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSubmit} variant="contained">
-          {initialData ? "Update Expense" : "Add Expense"}
+        <Button variant="contained" onClick={handleSubmit}>
+          {isEdit ? 'Update' : 'Add'}
         </Button>
       </DialogActions>
     </Dialog>
