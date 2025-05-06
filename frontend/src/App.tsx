@@ -5,7 +5,6 @@ import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import PropertyDashboard from "./pages/PropertyDashboard";
 import ExpenseDashboard from "./pages/ExpenseDashboard";
-import MonthlySummaryTable from "./pages/MonthlySummaryTable";
 import BookingDashboard from "./pages/BookingDashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -57,7 +56,6 @@ const App: React.FC = () => {
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard">
           <Route index element={<Dashboard />} />
-          <Route path="summary" element={<MonthlySummaryTable />} />
         </Route>
         <Route path="properties" element={<PropertyDashboard />} />
         <Route path="expenses" element={<ExpenseDashboard />} />
