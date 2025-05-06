@@ -17,7 +17,14 @@ export const useProperties = () => {
         const res = await axios.get('http://54.219.120.154:5000/api/properties', {
           params: { owner_id: user.id },
         });
-        setProperties(res.data);
+        const normalized = res.data.map((p: any) => ({
+            ...p,
+            propertyId: p.property_id,        // camelCase for new components
+            property_id: p.property_id        // preserve for legacy use (expenses)
+          }));
+          
+          setProperties(normalized);
+          
       } catch (err) {
         setError('Failed to fetch properties');
         console.error(err);

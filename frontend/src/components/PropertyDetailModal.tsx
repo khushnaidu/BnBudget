@@ -13,7 +13,7 @@ import {
 import { Property } from '../types/propertyTypes';
 import { MonetizationOn, CalendarMonth, BarChart } from '@mui/icons-material';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable'; 
 
 
 interface DetailData {
@@ -144,6 +144,7 @@ const PropertyDetailModal: React.FC<Props> = ({ open, onClose, data }) => {
                     try {
                     const res = await fetch(`/api/property/${property.property_id}/monthly_summary`);
                     const summaryData = await res.json();
+                    console.log("📊 Summary fetched:", summaryData);
 
                     const doc = new jsPDF();
                     doc.setFontSize(16);
@@ -163,25 +164,16 @@ const PropertyDetailModal: React.FC<Props> = ({ open, onClose, data }) => {
                         `$${s.net_income}`
                     ]);
 
-                    doc.autoTable({
+                    autoTable(doc, {
                         head: [[
-                        'Month',
-                        'Bookings',
-                        'Nights',
-                        'Occupancy',
-                        'Rent',
-                        'Cleaning',
-                        'Service',
-                        'Tax',
-                        'Revenue',
-                        'Expenses',
-                        'Net'
+                          'Month', 'Bookings', 'Nights', 'Occupancy', 'Rent',
+                          'Cleaning', 'Service', 'Tax', 'Revenue', 'Expenses', 'Net'
                         ]],
                         body: tableData,
                         startY: 30,
                         styles: { fontSize: 8 },
                         headStyles: { fillColor: [255, 90, 95] },
-                    });
+                      });
 
                     doc.save(`${property.name.replace(/\s+/g, '_')}_monthly_summary.pdf`);
                     } catch (err) {
