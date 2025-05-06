@@ -1,79 +1,80 @@
-import { useEffect, useState } from "react";
-import {
-  getExpenses,
-  addExpense,
-  updateExpense,
-  deleteExpense,
-  Expense,
-} from "../api/expenses";
-import { handleApiError } from "../utils/errorHandler";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Expense } from '../types/expenseTypes';
+import { useAuth } from '../context/AuthContext';
 
 export const useExpenses = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [actionError, setActionError] = useState<string | null>(null);
+  const { user } = useAuth();
 
-  const fetchExpenses = async () => {
-    setLoading(true);
-    try {
-      const data = await getExpenses();
-      setExpenses(data);
-      setError(null);
-    } catch (err) {
-      setError(handleApiError(err, "Failed to load expenses", "fetchExpenses"));
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    if (!user?.id) return;
+
+    const fetchExpenses = async () => {
+      try {
+        const res = await axios.get('http://54.219.120.154:5000/api/expenses', {
+          params: { owner_id: user.id }, 
+        });
+
+        const flat = Object.values(res.data).flat() as Expense[];
+        const normalized = flat.map((exp: any) => ({        
+            ...exp,
+            expenseDate: exp.expense_date,
+            propertyId: exp.property_id,
+            receiptAvailable: exp.receipt_available,
+          }));
+        setExpenses(flat);
+      } catch (err) {
+        setError('Failed to fetch expenses');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExpenses();
+  }, [user?.id]);
 
   const createExpense = async (expense: Expense) => {
-    const tempId = Date.now();
-    const newExpense = { ...expense, expense_id: tempId };
-  
-    setExpenses((prev) => [...prev, newExpense]);
-  
     try {
-      await addExpense(newExpense); // don't add it again
-      setActionError(null);
+      const res = await axios.post('http://54.219.120.154:5000/api/expenses', {
+        ...expense,
+        owner_id: user?.id,
+      });
+      setExpenses((prev) => [...prev, res.data]);
     } catch (err) {
-      // rollback
-      setExpenses((prev) => prev.filter((e) => e.expense_id !== tempId));
-      throw new Error(handleApiError(err, "Failed to add expense", "createExpense"));
+      console.error('Error creating expense:', err);
     }
   };
-  
 
-  const editExpense = async (id: number, data: Partial<Expense>) => {
+  const editExpense = async (id: number, updates: Partial<Expense>) => {
     try {
-      await updateExpense(id, data);
+      const res = await axios.put(`http://54.219.120.154:5000/api/expenses/${id}`, updates);
       setExpenses((prev) =>
-        prev.map((e) => (e.expense_id === id ? { ...e, ...data } : e))
+        prev.map((exp) => (exp.id === id ? { ...exp, ...res.data } : exp))
       );
-      setActionError(null);
     } catch (err) {
-      throw new Error(handleApiError(err, "Failed to edit expense", "editExpense"));
+      console.error('Error updating expense:', err);
     }
   };
 
   const removeExpense = async (id: number) => {
-    await deleteExpense(id);
-    setExpenses((prev) => prev.filter((e) => e.expense_id !== id));
+    try {
+      await axios.delete(`http://54.219.120.154:5000/api/expenses/${id}`);
+      setExpenses((prev) => prev.filter((exp) => exp.id !== id));
+    } catch (err) {
+      console.error('Error deleting expense:', err);
+    }
   };
-
-  useEffect(() => {
-    fetchExpenses();
-  }, []);
 
   return {
     expenses,
-    loading,
-    error,
-    actionError,
-    setActionError,
-    fetchExpenses,
     createExpense,
     editExpense,
     removeExpense,
+    loading,
+    error,
   };
 };

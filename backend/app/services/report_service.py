@@ -76,18 +76,25 @@ class ReportService:
         return dict(grouped)
 
     @staticmethod
-    def get_expenses(owner_id=None):
+    def get_expenses(owner_id=None, property_id=None):
         query = Expense.query.join(Property)
         if owner_id:
             query = query.filter(Property.owner_id == owner_id)
+        if property_id:
+            query = query.filter(Expense.property_id == property_id)
+
         expenses = query.all()
 
         grouped = defaultdict(list)
         for e in expenses:
             grouped[e.property_id].append({
-                "date": e.expense_date.isoformat(),
+                "id": e.id,
+                "propertyId": e.property_id,
+                "expenseDate": e.expense_date.isoformat(),
                 "category": e.category,
+                "description": e.description,
                 "amount": e.amount,
+                "receiptAvailable": e.receipt_available,
                 "vendor": e.vendor
             })
 

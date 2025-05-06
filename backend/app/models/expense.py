@@ -13,3 +13,15 @@ class Expense(db.Model):
     amount = db.Column(db.Float, nullable=False)
     receipt_available = db.Column(db.String(10))  # Yes/No string
     vendor = db.Column(db.String(255))
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "propertyId": self.property_id,
+            "expenseDate": self.expense_date.isoformat(),  # convert Date to string
+            "category": self.category,
+            "description": self.description,
+            "amount": self.amount,
+            "receiptAvailable": self.receipt_available,
+            "vendor": self.vendor,
+        }

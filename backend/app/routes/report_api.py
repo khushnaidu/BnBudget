@@ -1,4 +1,3 @@
-# backend/app/routes/report_api.py
 
 from flask import Blueprint, request, jsonify
 from app.services.report_service import ReportService
@@ -21,7 +20,8 @@ def get_bookings():
 @report_api.route('/api/expenses', methods=['GET'])
 def get_expenses():
     owner_id = request.args.get('owner_id', type=int)
-    return jsonify(ReportService.get_expenses(owner_id))
+    property_id = request.args.get('property_id', type=int)
+    return jsonify(ReportService.get_expenses(owner_id, property_id))
 
 
 @report_api.route('/api/monthly_summary', methods=['GET'])
