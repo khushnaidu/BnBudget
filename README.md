@@ -1,4 +1,9 @@
 # 📘 BnBudget: Kafka + Airflow + PostgreSQL + Metabase Integration
+## 📎 Downloadable Reports
+
+- 📘 [Technical Report (BnBudget_Tech_Report_CMPE272.pdf)](./docs/BnBudget_Tech_Report_CMPE272.pdf)
+- 📊 [YC Pitch Deck (BnBudget_PitchDeck_CMPE272.pdf)](./docs/BnBudget_PitchDeck_CMPE272.pdf)
+
 
 ## 🔧 Services & Ports Overview
 
