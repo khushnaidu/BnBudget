@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+  # ================== Flask Backend API ==================
+  backend:
+    build:
+      context: ./backend
+    container_name: bnbudget-backend
+    ports:
+      - "5050:5000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres-db
+
+  # ================== PostgreSQL ==================
+  postgres-db:
+    image: postgres:14
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: bnbudget_user
+      POSTGRES_PASSWORD: AirBNB1234
+      POSTGRES_DB: bnbudget
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ================== Metabase ==================
+  metabase-dataops:
+    image: metabase/metabase:latest
+    container_name: metabase-dataops
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres-db
+
+  # ================== Airflow Webserver ==================
+  airflow-webserver:
+    image: apache/airflow:2.8.1-python3.10
+    container_name: airflow-webserver
+    ports:
+      - "8080:8080"
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://bnbudget_user:AirBNB1234@bnbudget-db.cd8m0gcimolr.us-west-1.rds.amazonaws.com:5432/bnbudget
+      - _AIRFLOW_WWW_USER_USERNAME=admin
+      - _AIRFLOW_WWW_USER_PASSWORD=admin
+    volumes:
+      - ./backend/dags:/opt/airflow/dags
+    command: bash -c "airflow db init && airflow webserver"
+    depends_on:
+      - postgres-db
+
+  # ================== Airflow Scheduler ==================
+  airflow-scheduler:
+    image: apache/airflow:2.8.1-python3.10
+    container_name: airflow-scheduler
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://bnbudget_user:AirBNB1234@bnbudget-db.cd8m0gcimolr.us-west-1.rds.amazonaws.com:5432/bnbudget
+    volumes:
+      - ./backend/dags:/opt/airflow/dags
+    command: bash -c "airflow db upgrade && airflow scheduler"
+    depends_on:
+      - airflow-webserver
+
+  # ================== Apache Zookeeper ==================
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  # ================== Apache Kafka ==================
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+
+  # ================== Kafka UI ==================
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8081:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    depends_on:
+      - kafka
+
+  # ================== Kafka Consumer ==================
+  kafka-consumer:
+    build:
+      context: ./backend
+    container_name: kafka-consumer
+    command: ["python", "app/services/kafka/consumer.py"]
+    depends_on:
+      - kafka
+      - postgres-db
+    restart: always
+
+# ================== Volumes ==================
+volumes:
+  postgres_data:

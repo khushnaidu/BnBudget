@@ -1,0 +1,62 @@
+from kafka import KafkaProducer
+import json
+import time
+
+KAFKA_BROKER = "localhost:9092"  # use "kafka:9092" if running inside Docker
+
+producer = KafkaProducer(
+    bootstrap_servers=KAFKA_BROKER,
+    value_serializer=lambda v: json.dumps(v).encode('utf-8')
+)
+
+def send_event(topic, data):
+    producer.send(topic, value=data)
+    producer.flush()
+    print(f"[✔] Sent to {topic}: {data}")
+
+# --------- Sample Payloads --------- #
+
+expenses = {
+    "property_id": 101,
+    "date": "2025-05-05",
+    "amount": 250.75,
+    "category": "Plumbing"
+}
+
+properties = {
+    "property_id": 101,
+    "address": "123 Palm St",
+    "city": "San Jose",
+    "state": "CA",
+    "zip_code": "95125"
+}
+
+bookings = {
+    "property_id": 101,
+    "guest_name": "Jane Doe",
+    "check_in": "2025-05-10",
+    "check_out": "2025-05-15",
+    "total_price": 1800
+}
+
+# users = {
+#     "user_id": 6,
+#     "email": "newadmin@bnbudget.com",
+#     "password_hash": "hashed_password_string",  # Replace with actual hash
+#     "role": "admin"
+# }
+
+# --------- Send to Kafka Topics --------- #
+
+send_event("bnbudget-expenses", expenses)
+time.sleep(1)
+
+send_event("bnbudget-properties", properties)
+time.sleep(1)
+
+send_event("bnbudget-bookings", bookings)
+time.sleep(1)
+
+# To test user creation, uncomment the following:
+# send_event("bnbudget-users", users)
+# time.sleep(1)
