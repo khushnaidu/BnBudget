@@ -137,10 +137,10 @@ def get_owner_id():
         return jsonify({"error": "Owner not found"}), 404
     return jsonify({"owner_id": owner.id})
 
-
 @api.route('/expenses/<int:id>', methods=['DELETE'])
 def delete_expense(id):
     expense = Expense.query.get_or_404(id)
     db.session.delete(expense)
     db.session.commit()
     return jsonify({"message": f"Expense {id} deleted"}), 200
+
