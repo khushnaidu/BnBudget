@@ -137,6 +137,7 @@ def get_owner_id():
         return jsonify({"error": "Owner not found"}), 404
     return jsonify({"owner_id": owner.id})
 
+
 @api.route('/expenses/<int:id>', methods=['DELETE'])
 def delete_expense(id):
     expense = Expense.query.get_or_404(id)
@@ -144,3 +145,34 @@ def delete_expense(id):
     db.session.commit()
     return jsonify({"message": f"Expense {id} deleted"}), 200
 
+
+@api.route('/expenses', methods=['POST'])
+def create_expense():
+    data = request.get_json()
+
+    required_fields = ['propertyId', 'expenseDate', 'category', 'amount']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({'error': f'{field} is required'}), 400
+
+    try:
+        expense = Expense(
+            property_id=data['propertyId'],
+            expense_date=datetime.datetime.fromisoformat(data['expenseDate']),
+            category=data['category'],
+            description=data.get('description'),
+            amount=data['amount'],
+            receipt_available=data.get('receiptAvailable', 'No'),
+            vendor=data.get('vendor')
+        )
+
+        db.session.add(expense)
+        db.session.commit()
+
+        return jsonify(expense.serialize()), 201
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500

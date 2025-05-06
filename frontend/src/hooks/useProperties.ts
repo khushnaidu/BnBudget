@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-
-export interface Property {
-  id: number;
-  name: string;
-  [key: string]: any;
-}
+import { Property } from '../types/propertyTypes'; // ✅ unified type
 
 export const useProperties = () => {
   const [properties, setProperties] = useState<Property[]>([]);

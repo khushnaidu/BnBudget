@@ -1,149 +1,123 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
   Button,
-  Stack,
+  TextField,
   MenuItem,
+  Box,
 } from '@mui/material';
 import { Expense } from '../../types/expenseTypes';
+import { Property } from '../../types/propertyTypes';
 
 interface AddExpenseModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: Expense) => void;
-  initialData?: Expense;
+  onSubmit: (expense: Expense) => void;
+  propertyOptions: Property[];
 }
 
-const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ open, onClose, onSubmit, initialData }) => {
-  const isEdit = !!initialData;
-  const [formData, setFormData] = useState({
-    propertyId: '',
-    expenseDate: '',
-    category: '',
-    description: '',
-    amount: '',
-    receiptAvailable: 'No',
-    vendor: '',
-  });
+const defaultForm = {
+  propertyId: 0,
+  expenseDate: '',
+  category: '',
+  description: '',
+  amount: 0,
+  vendor: '',
+  receiptAvailable: 'No' as 'Yes' | 'No',
+};
 
-  useEffect(() => {
-    if (initialData) {
-      setFormData({
-        propertyId: String(initialData.propertyId),
-        expenseDate: initialData.expenseDate,
-        category: initialData.category,
-        description: initialData.description || '',
-        amount: String(initialData.amount),
-        receiptAvailable: initialData.receiptAvailable,
-        vendor: initialData.vendor || '',
-      });
-    } else {
-      setFormData({
-        propertyId: '',
-        expenseDate: '',
-        category: '',
-        description: '',
-        amount: '',
-        receiptAvailable: 'No',
-        vendor: '',
-      });
-    }
-  }, [initialData]);
+const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
+  open,
+  onClose,
+  onSubmit,
+  propertyOptions,
+}) => {
+  const [form, setForm] = useState({ ...defaultForm });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === 'amount' ? parseFloat(value) : value,
+    }));
   };
 
   const handleSubmit = () => {
-    const finalData: Expense = {
-      ...(initialData || { id: Date.now() }),
-      propertyId: Number(formData.propertyId),
-      expenseDate: formData.expenseDate,
-      category: formData.category,
-      description: formData.description,
-      amount: Number(formData.amount),
-      receiptAvailable: formData.receiptAvailable as 'Yes' | 'No',
-      vendor: formData.vendor,
-    };
-    onSubmit(finalData);
+    onSubmit(form as Expense);
+    setForm({ ...defaultForm });
   };
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{isEdit ? 'Edit Expense' : 'Add Expense'}</DialogTitle>
+      <DialogTitle>Add New Expense</DialogTitle>
       <DialogContent>
-        <Stack spacing={3} mt={2}>
+        <Box display="flex" flexDirection="column" gap={2} mt={1}>
           <TextField
-            required
-            label="Property ID"
+            select
+            label="Property"
             name="propertyId"
-            value={formData.propertyId}
+            value={form.propertyId}
             onChange={handleChange}
             fullWidth
-          />
-          <TextField
             required
+          >
+            {propertyOptions.map((p) => (
+              <MenuItem key={p.property_id} value={p.property_id}>
+                {p.name}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
             label="Date"
             name="expenseDate"
             type="date"
-            value={formData.expenseDate}
+            value={form.expenseDate}
             onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
             fullWidth
+            required
+            InputLabelProps={{ shrink: true }}
           />
           <TextField
-            required
             label="Category"
             name="category"
-            value={formData.category}
+            value={form.category}
             onChange={handleChange}
             fullWidth
+            required
           />
           <TextField
             label="Description"
             name="description"
-            value={formData.description}
+            value={form.description}
             onChange={handleChange}
             fullWidth
           />
           <TextField
-            required
             label="Amount"
             name="amount"
             type="number"
-            value={formData.amount}
+            value={form.amount}
             onChange={handleChange}
             fullWidth
+            required
           />
-          <TextField
-            select
-            label="Receipt Available"
-            name="receiptAvailable"
-            value={formData.receiptAvailable}
-            onChange={handleChange}
-            fullWidth
-          >
-            <MenuItem value="Yes">Yes</MenuItem>
-            <MenuItem value="No">No</MenuItem>
-          </TextField>
           <TextField
             label="Vendor"
             name="vendor"
-            value={formData.vendor}
+            value={form.vendor}
             onChange={handleChange}
             fullWidth
           />
-        </Stack>
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" onClick={handleSubmit}>
-          {isEdit ? 'Update' : 'Add'}
+        <Button onClick={handleSubmit} variant="contained">
+          Add Expense
         </Button>
       </DialogActions>
     </Dialog>
