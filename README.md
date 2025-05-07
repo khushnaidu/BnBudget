@@ -132,26 +132,35 @@ This system simulates Airbnb-style real-time property data using **Apache Kafka*
 
 ## 📦 Kafka Setup & Execution
 
-### 1. Start Kafka Infrastructure
+### 1. Install Requirements
+
+```bash
+cd backend/syntheticdata
+pip install -r requirements.txt
+```
+
+### 2. Start Kafka Infrastructure
 
 ```bash
 cd backend/syntheticdata
 ./setup_kafka.sh setup
 ```
 
-### 2. Run the Consumer (Terminal 1)
+### 3. Run the Data Generator (Terminal 1)
+
+```bash
+cd backend/syntheticdata
+python kafka_data_generator.py
+```
+
+### 4. Run the Consumer (Terminal 2)
 
 ```bash
 cd backend/syntheticdata
 python kafka_consumer.py
 ```
 
-### 3. Run the Producer (Terminal 2)
-
-```bash
-cd backend/syntheticdata
-python kafka_data_generator.py
-```
+> **Note**: The data generator must be running before starting the consumer to ensure messages are being produced.
 
 ---
 
