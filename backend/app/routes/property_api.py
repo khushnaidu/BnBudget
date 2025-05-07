@@ -1,7 +1,12 @@
 from flask import Blueprint, request, jsonify
 from app.models.owner import Owner
 from app.models.property import Property
+from app.models.booking import Booking
+from app.models.expense import Expense
+from app.models.monthly_summary import MonthlySummary
 from app.database import db
+from sqlalchemy import func, extract
+from datetime import datetime
 
 property_api = Blueprint('property_api', __name__)
 
@@ -76,3 +81,34 @@ def delete_property(id):
     db.session.delete(property)
     db.session.commit()
     return jsonify({"message": "Property deleted successfully"})
+
+@property_api.route('/property/<int:property_id>/monthly_summary', methods=['GET'])
+def get_monthly_summary(property_id):
+    """Get monthly summary data for a property."""
+    try:
+        # Get all monthly summaries for the property
+        summaries = MonthlySummary.query.filter_by(property_id=property_id).order_by(
+            MonthlySummary.year.desc(),
+            MonthlySummary.month.desc()
+        ).all()
+        
+        if not summaries:
+            return jsonify([])
+            
+        return jsonify([{
+            'month': s.month,
+            'year': s.year,
+            'bookings': s.bookings,
+            'nights_booked': s.nights_booked,
+            'occupancy_percent': s.occupancy_percent,
+            'rental_income': s.rental_income,
+            'cleaning_fees': s.cleaning_fees,
+            'service_fees': s.service_fees,
+            'tax_collected': s.tax_collected,
+            'total_revenue': s.total_revenue,
+            'expenses': s.expenses,
+            'net_income': s.net_income
+        } for s in summaries])
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
