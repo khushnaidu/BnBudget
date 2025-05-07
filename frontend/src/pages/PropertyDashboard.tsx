@@ -5,7 +5,7 @@ import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import '../styles/swiperOverrides.css';
-import { API_ENDPOINTS } from '../config/api';
+import { API_ENDPOINTS, API_BASE_URL } from '../config/api';
 
 import PropertyCard from '../components/PropertyCard';
 import PropertyDetailModal from '../components/PropertyDetailModal';
@@ -49,7 +49,7 @@ const PropertyDashboard: React.FC = () => {
 
   const handleCardClick = async (propertyId: number) => {
     try {
-      const res = await fetch(`${API_ENDPOINTS.properties}/${propertyId}/details`);
+      const res = await fetch(`${API_BASE_URL}/property/${propertyId}/details`);
       if (!res.ok) throw new Error('Failed to fetch details');
       const data = await res.json();
       setSelectedDetails(data);
