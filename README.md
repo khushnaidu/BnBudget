@@ -24,7 +24,7 @@ This project is built for demo purposes using synthetic data, simulated event st
 
 ```bash
 git clone https://github.com/khushnaidu/BnBudget.git
-cd BnBudget/backend
+cd BnBudget
 ```
 
 ---
@@ -36,6 +36,7 @@ cd BnBudget/backend
 2. **Build the backend image:**
 
 ```bash
+cd backend
 docker build -t bnbudget-backend .
 ```
 
@@ -46,6 +47,21 @@ docker run -p 5001:5000 --env-file .env bnbudget-backend
 ```
 
 Your backend will now be accessible at `http://localhost:5001`.
+
+---
+
+### Step 3: Run the Frontend Locally
+
+1. Open a second terminal and run:
+
+```bash
+cd BnBudget/frontend
+npm install
+npm start
+```
+
+2. This will launch the app at [http://localhost:3000](http://localhost:3000)  
+   _(or another port if 3000 is in use)_
 
 ---
 
@@ -61,9 +77,10 @@ REACT_APP_API_URL=http://<your-ec2-ip>:5000/api
 
 ## 🌐 Frontend Demo (Hosted)
 
-The frontend is deployed using Vercel, with HTTPS proxy via Cloudflare Tunnel for the backend:
+The frontend is deployed using Vercel, but **requires a live Cloudflare Tunnel** to securely access the backend over HTTPS.
 
-🔗 **Live Demo**: [https://bn-budget.vercel.app/login](https://bn-budget.vercel.app/login)
+🔗 **Live Demo** (only available during live tunnel uptime):  
+[https://bn-budget.vercel.app/login](https://bn-budget.vercel.app/login)
 
 ---
 
