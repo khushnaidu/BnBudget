@@ -1,10 +1,9 @@
 import axios from "axios";
-
-const API_URL = "http://54.219.120.154:5000/api";
+import { API_BASE_URL } from "../config/api";
 
 export const loginUser = async (email: string, password: string) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, {
+    const response = await axios.post(`${API_BASE_URL}/login`, {
       email,
       password,
     });
@@ -18,7 +17,7 @@ export const loginUser = async (email: string, password: string) => {
 
 export const registerUser = async (email: string, password: string) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, {
+    const response = await axios.post(`${API_BASE_URL}/register`, {
       email,
       password,
     });

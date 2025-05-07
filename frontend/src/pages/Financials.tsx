@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const Financials: React.FC = () => {
   const { user } = useAuth();
@@ -12,7 +13,7 @@ const Financials: React.FC = () => {
   useEffect(() => {
     const fetchEmbedUrl = async () => {
       try {
-        const res = await axios.post('http://54.219.120.154:5000/api/metabase-dashboard', {
+        const res = await axios.post(API_ENDPOINTS.metabaseDashboard, {
           email: user?.email,
         });
         setIframeUrl(res.data.iframe_url);

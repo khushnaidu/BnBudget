@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { Property } from '../types/propertyTypes'; // ✅ unified type
+import { API_ENDPOINTS } from '../config/api';
 
 export const useProperties = () => {
   const [properties, setProperties] = useState<Property[]>([]);
@@ -14,17 +15,17 @@ export const useProperties = () => {
 
     const fetchProperties = async () => {
       try {
-        const res = await axios.get('http://54.219.120.154:5000/api/properties', {
+        const res = await axios.get(API_ENDPOINTS.properties, {
           params: { owner_id: user.id },
         });
         const normalized = res.data.map((p: any) => ({
-            ...p,
-            propertyId: p.property_id,        // camelCase for new components
-            property_id: p.property_id        // preserve for legacy use (expenses)
-          }));
-          
-          setProperties(normalized);
-          
+          ...p,
+          propertyId: p.property_id,        // camelCase for new components
+          property_id: p.property_id        // preserve for legacy use (expenses)
+        }));
+
+        setProperties(normalized);
+
       } catch (err) {
         setError('Failed to fetch properties');
         console.error(err);

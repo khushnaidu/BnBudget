@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Expense } from '../types/expenseTypes';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 
 export const useExpenses = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -14,17 +15,17 @@ export const useExpenses = () => {
 
     const fetchExpenses = async () => {
       try {
-        const res = await axios.get('http://54.219.120.154:5000/api/expenses', {
-          params: { owner_id: user.id }, 
+        const res = await axios.get(API_ENDPOINTS.expenses, {
+          params: { owner_id: user.id },
         });
 
         const flat = Object.values(res.data).flat() as Expense[];
-        const normalized = flat.map((exp: any) => ({        
-            ...exp,
-            expenseDate: exp.expense_date,
-            propertyId: exp.property_id,
-            receiptAvailable: exp.receipt_available,
-          }));
+        const normalized = flat.map((exp: any) => ({
+          ...exp,
+          expenseDate: exp.expense_date,
+          propertyId: exp.property_id,
+          receiptAvailable: exp.receipt_available,
+        }));
         setExpenses(flat);
       } catch (err) {
         setError('Failed to fetch expenses');
@@ -39,7 +40,7 @@ export const useExpenses = () => {
 
   const createExpense = async (expense: Expense) => {
     try {
-      const res = await axios.post('http://54.219.120.154:5000/api/expenses', {
+      const res = await axios.post(API_ENDPOINTS.expenses, {
         ...expense,
         owner_id: user?.id,
       });
@@ -51,7 +52,7 @@ export const useExpenses = () => {
 
   const editExpense = async (id: number, updates: Partial<Expense>) => {
     try {
-      const res = await axios.put(`http://54.219.120.154:5000/api/expenses/${id}`, updates);
+      const res = await axios.put(`${API_ENDPOINTS.expenses}/${id}`, updates);
       setExpenses((prev) =>
         prev.map((exp) => (exp.id === id ? { ...exp, ...res.data } : exp))
       );
@@ -62,7 +63,7 @@ export const useExpenses = () => {
 
   const removeExpense = async (id: number) => {
     try {
-      await axios.delete(`http://54.219.120.154:5000/api/expenses/${id}`);
+      await axios.delete(`${API_ENDPOINTS.expenses}/${id}`);
       setExpenses((prev) => prev.filter((exp) => exp.id !== id));
     } catch (err) {
       console.error('Error deleting expense:', err);
