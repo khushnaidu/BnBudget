@@ -6,6 +6,10 @@ from datetime import datetime
 from kafka import KafkaConsumer
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import exists
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env'))
 
 # Add the parent directory to Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
