@@ -18,6 +18,34 @@ This project is built for demo purposes using synthetic data, simulated event st
 
 ---
 
+## 🛠️ Enterprise Tool Integrations
+
+### 📊 Metabase Analytics
+- **Interactive Dashboards**: Real-time financial analytics and property performance metrics
+- **Custom Visualizations**: Dynamic charts and graphs for revenue, occupancy, and expense analysis
+- **Embedded Analytics**: Seamlessly integrated into the frontend for a unified user experience
+- **Data Exploration**: Advanced querying capabilities for deep financial insights
+
+### ☁️ AWS Infrastructure
+- **Amazon RDS**: Managed PostgreSQL database for reliable data storage
+- **EC2 Instances**: Scalable compute resources for backend deployment
+- **Security Groups**: Configured for secure API access and database connections
+- **CloudWatch**: Monitoring and logging for system health and performance
+
+### 🔄 Apache Kafka
+- **Real-time Data Pipeline**: Event streaming for live property updates
+- **Message Queue**: Reliable delivery of booking and expense events
+- **Data Processing**: Stream processing for immediate analytics updates
+- **Fault Tolerance**: High availability and data durability
+
+### 🔒 Security & Access
+- **Cloudflare Tunnel**: Secure HTTPS access to backend services
+- **Vercel Deployment**: Global CDN and edge caching for frontend
+- **Environment Variables**: Secure configuration management
+- **CORS Policies**: Controlled API access and cross-origin requests
+
+---
+
 ## ⚙️ Local Development Setup
 
 ### Step 1: Clone the Repo
@@ -40,7 +68,7 @@ cd backend
 docker build -t bnbudget-backend .
 ```
 
-3. **Run the backend on port `5001` (maps to container’s 5000):**
+3. **Run the backend on port `5001` (maps to container's 5000):**
 
 ```bash
 docker run -p 5001:5000 --env-file .env bnbudget-backend
